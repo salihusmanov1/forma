@@ -1,8 +1,5 @@
-# React + Vite
+# Forma - A Customizable Form Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Project Description
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+  Forma is a web application for creating customizable forms, quizzes, surveys, and polls. Users can create templates with predefined questions, share them, and analyze the collected responses. Admins can manage users, templates, and form responses effortlessly.
