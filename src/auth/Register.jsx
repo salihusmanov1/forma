@@ -15,7 +15,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSignupMutation } from "@/state/slices/auth/apiSlice";
 import { setCredentials } from "@/state/slices/auth/authSlice";
 import { useNavigate } from "react-router";
-import { closeRegistrationModal } from "@/state/slices/auth/authModalSlice";
+import {
+  closeRegistrationModal,
+  openLoginModal,
+} from "@/state/slices/auth/authModalSlice";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("This field is required."),
@@ -32,6 +35,11 @@ function Register({ isOpen }) {
 
   const closeRegister = () => {
     dispatch(closeRegistrationModal());
+  };
+
+  const openLogin = () => {
+    dispatch(openLoginModal());
+    closeRegister();
   };
 
   const {
@@ -128,22 +136,24 @@ function Register({ isOpen }) {
                   {errors.password?.message}
                 </div>
               </div>
-              <Button
-                type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-400"
-              >
-                Register
-              </Button>
-              <Button variant="outline" className="w-full">
-                Register with Google
-              </Button>
+              <div className="grid gap-2">
+                <Button
+                  type="submit"
+                  className="w-full bg-blue-700 hover:bg-blue-500"
+                >
+                  Register
+                </Button>
+                <Button variant="outline" className="w-full">
+                  Register with Google
+                </Button>
+              </div>
             </div>
           </form>
           <div className="mt-4 text-center text-sm">
-            Already have an account?
-            <a href="#" className="underline">
+            Already have an account?&nbsp;
+            <Button variant="link" className="px-0" onClick={openLogin}>
               Sign in
-            </a>
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

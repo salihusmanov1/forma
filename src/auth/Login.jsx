@@ -16,7 +16,10 @@ import { useLoginMutation } from "@/state/slices/auth/apiSlice";
 import { setCredentials } from "@/state/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { closeLoginModal } from "@/state/slices/auth/authModalSlice";
+import {
+  closeLoginModal,
+  openRegistrationModal,
+} from "@/state/slices/auth/authModalSlice";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -33,6 +36,11 @@ function Login({ isOpen }) {
 
   const closeLogin = () => {
     dispatch(closeLoginModal());
+  };
+
+  const openRegister = () => {
+    dispatch(openRegistrationModal());
+    closeLogin();
   };
 
   const {
@@ -117,7 +125,7 @@ function Login({ isOpen }) {
               <div className="grid gap-2">
                 <Button
                   type="submit"
-                  className="w-full bg-blue-500 hover:bg-blue-400"
+                  className="w-full bg-blue-700 hover:bg-blue-500"
                 >
                   Login
                 </Button>
@@ -128,10 +136,10 @@ function Login({ isOpen }) {
             </div>
           </form>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?
-            <a href="#" className="underline">
+            Don&apos;t have an account?&nbsp;
+            <Button variant="link" className="px-0" onClick={openRegister}>
               Sign up
-            </a>
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
