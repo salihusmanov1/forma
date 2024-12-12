@@ -1,5 +1,5 @@
-import Register from "@/auth/Register";
-import Login from "@/auth/Login";
+import Register from "@/components/auth/Register";
+import Login from "@/components/auth/Login";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router";
 

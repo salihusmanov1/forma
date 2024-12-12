@@ -76,7 +76,7 @@ function Layout() {
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:block">
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 items-center">
                   <NavLink
                     to="/"
                     className="rounded-md group px-3 py-2 text-md font-medium text-blue-700 "
@@ -88,7 +88,7 @@ function Layout() {
                         useIsActive() === "/"
                           ? "block group:max-w-full"
                           : "block max-w-0 group-hover:max-w-full "
-                      } transition-all duration-500 h-0.5 bg-blue-700`}
+                      } transition-all duration-500 h-0.5 bg-blue-500 mx-1 mt-1`}
                     ></span>
                   </NavLink>
                   <NavLink
@@ -101,7 +101,7 @@ function Layout() {
                         useIsActive() === "/main"
                           ? "block max-w-full"
                           : "block max-w-0 group-hover:max-w-full "
-                      } transition-all duration-500 h-0.5 bg-blue-700`}
+                      } transition-all duration-500 h-0.5 bg-blue-500 mx-1 mt-1`}
                     ></span>
                   </NavLink>
                   <Button

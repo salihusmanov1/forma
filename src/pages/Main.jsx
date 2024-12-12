@@ -8,8 +8,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router";
 
 export default function Main() {
+  const navigate = useNavigate();
+
+  const navigateTo = () => {
+    navigate("/form", { state: { from: window.location.pathname } });
+  };
+
   const cards = [
     {
       id: 1,
@@ -32,6 +39,13 @@ export default function Main() {
       description: "A simple and elegant solution.",
       creator: "Created by Charlie",
     },
+    {
+      id: 4,
+      image: "https://picsum.photos/350/128?random=4",
+      title: "Template 4",
+      description: "A simple and elegant solution.",
+      creator: "Created by Charlie",
+    },
   ];
 
   return (
@@ -42,20 +56,25 @@ export default function Main() {
           <Icon icon="lucide:search" />
         </Button>
       </div>
-      <div className="my-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="my-5 flex justify-end">
+        <Button className="bg-blue-600 hover:bg-blue-500" onClick={navigateTo}>
+          <Icon icon="lucide:plus" /> Create Template
+        </Button>
+      </div>
+      <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((card) => (
           <Card key={card.id} className="w-full max-w-sm mx-auto">
-            <CardContent className="p-2">
+            <CardContent className="p-2 grid gap-4">
               <img
                 src={card.image}
                 alt={card.title}
                 className="w-full h-32 object-cover"
               />
-            </CardContent>
-            <CardFooter className="flex flex-col gap-2 items-start mt-2">
               <CardTitle>{card.title}</CardTitle>
               <CardDescription>{card.description}</CardDescription>
-              <div className="text-sm">{card.creator}</div>
+              <div className="text-sm italic">{card.creator}</div>
+            </CardContent>
+            <CardFooter className="flex flex-col gap-2 items-start mt-2 p-2">
               <Button
                 variant="outline"
                 className="w-full border-blue-700 hover:bg-blue-600 text-blue-700 hover:text-white"
