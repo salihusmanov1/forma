@@ -1,9 +1,10 @@
 import Layout from "@/components/layouts/Layout";
 import Home from "@/pages/Home";
-import Main from "../pages/Main";
 import { createBrowserRouter } from "react-router";
 import App from "../App";
-import Form from "../pages/Form";
+import Templates from "../pages/Templates";
+import Template from "../pages/Template";
+
 import ProtectedRoutes from "./ProtectedRoutes";
 
 export const router = createBrowserRouter([
@@ -19,16 +20,16 @@ export const router = createBrowserRouter([
             index: true,
           },
           {
-            path: "/main",
-            Component: Main,
+            path: "/templates",
+            Component: Templates,
           },
           {
             path: "",
             Component: ProtectedRoutes,
             children: [
               {
-                path: "/form",
-                Component: Form,
+                path: "/template",
+                Component: Template,
               },
             ],
           },

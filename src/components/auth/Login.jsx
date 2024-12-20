@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLoginMutation } from "@/state/slices/auth/apiSlice";
+import { useLoginMutation } from "@/state/slices/auth/authApiSlice";
 import { setCredentials } from "@/state/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
