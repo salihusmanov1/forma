@@ -5,7 +5,7 @@ import "../assets/App.css";
 function Home() {
   const navigate = useNavigate();
   const navigateToMain = () => {
-    navigate("/main");
+    navigate("/templates");
   };
 
   return (

@@ -4,8 +4,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -26,13 +24,12 @@ import { useState } from "react";
 import { useCreateTemplateMutation } from "@/state/slices/templates/templatesApiSlice";
 import { useSelector } from "react-redux";
 import LineQuestions from "@/components/template/LineQuestions";
-import { Label } from "@/components/ui/label";
 
 export default function Template() {
   const { user } = useSelector((state) => state.auth);
   const methods = useForm({
     defaultValues: {
-      questions: [{ number: 1, question: " Question", type: "single_line" }],
+      questions: [{ question: " Question", type: "single_line" }],
       template_name: "Template Title",
       template_description: "Template Description",
     },
@@ -82,7 +79,6 @@ export default function Template() {
 
   const addSingleLineField = () => {
     questions.append({
-      number: questions.fields.length + 1,
       question: "Question",
       type: "single_line",
     });
@@ -92,7 +88,6 @@ export default function Template() {
 
   const addMultiLineField = () => {
     questions.append({
-      number: questions.fields.length + 1,
       question: "Question",
       type: "multi_line",
     });
@@ -102,7 +97,6 @@ export default function Template() {
 
   const addNumericField = () => {
     questions.append({
-      number: questions.fields.length + 1,
       question: "Question",
       type: "numeric",
     });
@@ -112,7 +106,6 @@ export default function Template() {
   };
   const addCheckboxField = () => {
     questions.append({
-      number: questions.fields.length + 1,
       question: "Question",
       type: "checkbox",
       options: [{ name: "Option 1" }],
@@ -132,8 +125,8 @@ export default function Template() {
     <FormProvider {...methods}>
       <div className="w-2/3 mx-auto h-full">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Card className="my-20">
-            <CardHeader className="grid gap-4 m-5 break-all">
+          <Card className="my-20 p-5">
+            <CardHeader className="grid gap-4 break-all">
               <label
                 className="focus:outline-none cursor-text pb-10 text-4xl font-bold tracking-tight lg:text-5xl"
                 contentEditable

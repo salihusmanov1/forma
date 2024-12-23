@@ -79,7 +79,7 @@ function Layout() {
                 <div className="flex space-x-2 items-center">
                   <NavLink
                     to="/"
-                    className="rounded-md group px-3 py-2 text-md font-medium text-blue-700 "
+                    className="rounded-md group px-3 py-2 text-md font-medium text-blue-600 "
                     aria-current="page"
                   >
                     Home
@@ -93,7 +93,7 @@ function Layout() {
                   </NavLink>
                   <NavLink
                     to="/templates"
-                    className="rounded-md group px-3 py-2 text-md font-medium text-blue-700 "
+                    className="rounded-md group px-3 py-2 text-md font-medium text-blue-600 "
                   >
                     Templates
                     <span
