@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-
 import {
   Dialog,
   DialogContent,
@@ -15,11 +14,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useLoginMutation } from "@/state/slices/auth/authApiSlice";
 import { setCredentials } from "@/state/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import {
   closeLoginModal,
   openRegistrationModal,
 } from "@/state/slices/auth/authModalSlice";
+import { Icon } from "@iconify/react";
+import { useToast } from "@/hooks/use-toast";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -30,7 +30,7 @@ const validationSchema = Yup.object({
 
 function Login({ isOpen }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { toast } = useToast();
   const [login, { isLoading }] = useLoginMutation();
   const { user } = useSelector((state) => state.auth);
 
@@ -51,13 +51,22 @@ function Login({ isOpen }) {
     resolver: yupResolver(validationSchema),
   });
 
+  const callToast = (variant, message) => {
+    toast({
+      variant: variant,
+      description: message,
+    });
+  };
+
   const onSubmit = async (data) => {
     try {
       const res = await login(data).unwrap();
       dispatch(setCredentials(res.user));
+      callToast("success", res.message);
       closeLogin();
-      navigate("/main");
-    } catch (error) {}
+    } catch (error) {
+      callToast("destructive", error.data.message);
+    }
   };
   return (
     <div>
@@ -124,9 +133,16 @@ function Login({ isOpen }) {
               </div>
               <div className="grid gap-2">
                 <Button
+                  disabled={isLoading}
                   type="submit"
-                  className="w-full bg-blue-700 hover:bg-blue-500"
+                  className="w-full bg-blue-600 hover:bg-blue-500"
                 >
+                  {isLoading && (
+                    <Icon
+                      icon="lucide:loader-circle"
+                      className="animate-spin"
+                    />
+                  )}
                   Login
                 </Button>
                 <Button variant="outline" className="w-full">

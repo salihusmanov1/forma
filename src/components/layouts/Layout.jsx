@@ -1,12 +1,15 @@
 import { NavLink, Outlet, useLocation } from "react-router";
 import { Button } from "../ui/button";
 import { openLoginModal } from "@/state/slices/auth/authModalSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import NavUser from "../NavUser";
 
 function Layout() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
   const openLogin = () => {
     dispatch(openLoginModal());
   };
@@ -22,7 +25,7 @@ function Layout() {
   return (
     <div className="h-screen">
       <nav className="bg-white border-b drop-shadow-md">
-        <div className="mx-auto max-w-7xl px-2 sm:pl-6 lg:pl-8">
+        <div className="mx-auto max-w-7xl sm:pl-6 lg:pl-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <button
@@ -79,7 +82,11 @@ function Layout() {
                 <div className="flex space-x-2 items-center">
                   <NavLink
                     to="/"
-                    className="rounded-md group px-3 py-2 text-md font-medium text-blue-600 "
+                    className={({ isActive }) =>
+                      `${
+                        isActive ? "text-blue-500" : "text-zinc-500"
+                      } rounded-md group px-3 py-2 text-md font-medium hover:text-blue-500 transition-all duration-500`
+                    }
                     aria-current="page"
                   >
                     Home
@@ -93,7 +100,11 @@ function Layout() {
                   </NavLink>
                   <NavLink
                     to="/templates"
-                    className="rounded-md group px-3 py-2 text-md font-medium text-blue-600 "
+                    className={({ isActive }) =>
+                      `${
+                        isActive ? "text-blue-500" : "text-zinc-500"
+                      } rounded-md group px-3 py-2 text-md font-medium hover:text-blue-500 transition-all duration-500`
+                    }
                   >
                     Templates
                     <span
@@ -101,15 +112,21 @@ function Layout() {
                         useIsActive() === "/templates"
                           ? "block max-w-full"
                           : "block max-w-0 group-hover:max-w-full "
-                      } transition-all duration-500 h-0.5 bg-blue-500 mx-1 mt-1`}
+                      } transition-all duration-500 h-0.5 bg-blue-500  mx-1 mt-1`}
                     ></span>
                   </NavLink>
-                  <Button
-                    onClick={openLogin}
-                    className="rounded-md bg-amber-500 text-base text-white hover:bg-amber-600 hover:text-white"
-                  >
-                    Sign In
-                  </Button>
+                  {!user ? (
+                    <Button
+                      onClick={openLogin}
+                      className="rounded-md bg-amber-500 text-base text-white hover:bg-amber-600 hover:text-white"
+                    >
+                      Sign In
+                    </Button>
+                  ) : (
+                    <div>
+                      <NavUser user={user} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

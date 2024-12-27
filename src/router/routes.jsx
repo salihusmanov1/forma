@@ -24,11 +24,14 @@ export const router = createBrowserRouter([
             Component: Templates,
           },
           {
-            path: "",
             Component: ProtectedRoutes,
             children: [
               {
                 path: "/template",
+                Component: Template,
+              },
+              {
+                path: "/template/:id",
                 Component: Template,
               },
             ],

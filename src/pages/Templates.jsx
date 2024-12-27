@@ -15,8 +15,12 @@ export default function Templates() {
   const { data: templates, isLoading } = useGetTemplatesQuery();
   const navigate = useNavigate();
 
-  const navigateTo = () => {
+  const navigateToNew = () => {
     navigate("/template", { state: { from: window.location.pathname } });
+  };
+
+  const navigateToExisting = (id) => {
+    navigate(`/template/${id}`, { state: { from: window.location.pathname } });
   };
 
   return (
@@ -28,11 +32,14 @@ export default function Templates() {
         </Button>
       </div>
       <div className="my-5 flex justify-end">
-        <Button className="bg-blue-600 hover:bg-blue-500" onClick={navigateTo}>
+        <Button
+          className="bg-blue-600 hover:bg-blue-500"
+          onClick={navigateToNew}
+        >
           <Icon icon="lucide:plus" /> Create Template
         </Button>
       </div>
-      <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {templates?.data.length > 0 ? (
           templates.data.map((template) => (
             <Card key={template.id} className="w-full max-w-sm mx-auto">
@@ -54,6 +61,7 @@ export default function Templates() {
                 <Button
                   variant="outline"
                   className="w-full border-blue-700 hover:bg-blue-600 text-blue-700 hover:text-white"
+                  onClick={() => navigateToExisting(template.id)}
                 >
                   Use this template
                 </Button>
