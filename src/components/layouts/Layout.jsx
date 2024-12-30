@@ -152,7 +152,7 @@ function Layout() {
           </div>
         )}
       </nav>
-      <div className="container-lg">
+      <div className="container-lg min-h-screen">
         <Outlet />
       </div>
     </div>

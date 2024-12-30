@@ -4,8 +4,10 @@ import { createBrowserRouter } from "react-router";
 import App from "../App";
 import Templates from "../pages/Templates";
 import Template from "../pages/Template";
+import Form from "@/pages/Form";
 
 import ProtectedRoutes from "./ProtectedRoutes";
+import FormQuestions from "@/components/form/FormQuestions";
 
 export const router = createBrowserRouter([
   {
@@ -24,15 +26,23 @@ export const router = createBrowserRouter([
             Component: Templates,
           },
           {
+            path: "/template",
+            Component: Template,
+          },
+          {
+            path: "/template/:id",
+            Component: Template,
+          },
+          {
             Component: ProtectedRoutes,
             children: [
               {
-                path: "/template",
-                Component: Template,
+                path: "/form/:id",
+                Component: Form,
               },
               {
-                path: "/template/:id",
-                Component: Template,
+                path: ":id",
+                Component: Form,
               },
             ],
           },

@@ -1,11 +1,18 @@
-import { useFormContext } from "react-hook-form";
+import { Reorder } from "motion/react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import CheckboxQuestions from "./CheckboxQuestions";
-import { Reorder } from "motion/react";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { Icon } from "@iconify/react";
 
-function Questions({ field, question_index, setOldIndex }) {
+function TemplateQuestion({
+  field,
+  question_index,
+  isReadonly,
+  setOldIndex,
+  remove,
+}) {
   const { setValue } = useFormContext();
   const [active, setActive] = useState("shadow-none");
 
@@ -13,6 +20,9 @@ function Questions({ field, question_index, setOldIndex }) {
     setValue(`questions.${index}.question`, event.target.innerText);
   };
 
+  const handleDelete = () => {
+    remove(question_index);
+  };
   return (
     <div>
       <Reorder.Item
@@ -26,21 +36,24 @@ function Questions({ field, question_index, setOldIndex }) {
         onDragEnd={() => {
           setActive("shadow-none");
         }}
-        className={`grid gap-2 p-4 border-2 border-white hover:border-blue-600 rounded-lg border-current bg-white ${active}`}
+        dragListener={!isReadonly}
+        className={`grid gap-2 p-4 border-2 border-white ${
+          !isReadonly ? "hover:border-blue-600" : ""
+        } rounded-lg border-current bg-white ${active}`}
       >
         <div>
           <div className="flex font-medium">
             <p className="mr-2 mb-2">{question_index + 1}.</p>
             <label
               className="focus:outline-none cursor-text"
-              contentEditable
+              contentEditable={!isReadonly}
               suppressContentEditableWarning
               onInput={(e) => handleQuestionChange(e, question_index)}
             >
               {field.question}
             </label>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex justify-between items-center">
             {field.type === "single_line" && (
               <Input
                 type="text"
@@ -59,20 +72,22 @@ function Questions({ field, question_index, setOldIndex }) {
               <Input
                 type="id"
                 disabled
-                className="disabled:cursor-auto disabled:opacity-100"
+                className="disabled:cursor-auto disabled:opacity-100 lg:w-1/3"
               />
             )}
             {field.type === "checkbox" && (
-              <CheckboxQuestions question_index={question_index} />
+              <CheckboxQuestions
+                question_index={question_index}
+                isReadonly={isReadonly}
+              />
             )}
-            {/* <Icon
-                    icon="lucide:grip"
-                    className="mx-3 size-6 text-zinc-500 cursor-grab"
-                    onPointerDown={(event) => {
-                      controls.start(event, { snapToCursor: true });
-                    }}
-                    style={{ touchAction: "none" }}
-                  /> */}
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="mx-3 text-red-500 hover:text-red-700"
+            >
+              <Icon icon="lucide:trash" />
+            </button>
           </div>
         </div>
       </Reorder.Item>
@@ -80,4 +95,4 @@ function Questions({ field, question_index, setOldIndex }) {
   );
 }
 
-export default Questions;
+export default TemplateQuestion;

@@ -2,8 +2,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Icon } from "@iconify/react";
 import { Label } from "../ui/label";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { Button } from "../ui/button";
 
-function CheckboxQuestions({ question_index }) {
+function CheckboxQuestions({ question_index, isReadonly }) {
   const { setValue, control } = useFormContext();
 
   const options = useFieldArray({
@@ -26,12 +27,16 @@ function CheckboxQuestions({ question_index }) {
       {options.fields.map((option, option_index) => (
         <div key={option_index} className="grid gap-4 p-2">
           <div className="flex items-center space-x-2">
-            <Checkbox id="terms2" disabled className="disabled:cursor-auto" />
+            <Checkbox
+              id={`${question_index}_${option_index}`}
+              disabled
+              className="disabled:cursor-auto"
+            />
 
             <label
-              htmlFor="terms2"
+              htmlFor={`${question_index}_${option_index}`}
               className="text-sm font-medium leading-none focus:outline-none cursor-text"
-              contentEditable
+              contentEditable={!isReadonly}
               suppressContentEditableWarning
               onInput={(e) =>
                 handleOptionChange(e, question_index, option_index)
@@ -42,15 +47,16 @@ function CheckboxQuestions({ question_index }) {
           </div>
         </div>
       ))}
-      <div
-        role="button"
+      <Button
+        type="button"
+        variant="ghost"
+        disabled={isReadonly}
         onClick={() => addOption(question_index)}
-        tabIndex="0"
-        className="flex items-center gap-2 text-zinc-400 mt-2"
+        className=" flex items-center gap-2 text-zinc-400 mt-2"
       >
-        <Icon className="cursor-pointer" icon="lucide:plus"></Icon>
-        <Label className="cursor-pointer">Add more options</Label>
-      </div>
+        <Icon icon="lucide:plus"></Icon>
+        <Label>Add more options</Label>
+      </Button>
     </div>
   );
 }

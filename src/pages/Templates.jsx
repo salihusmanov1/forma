@@ -43,16 +43,16 @@ export default function Templates() {
         {templates?.data.length > 0 ? (
           templates.data.map((template) => (
             <Card key={template.id} className="w-full max-w-sm mx-auto">
-              <CardContent className="p-2 grid gap-4">
+              <CardContent className="p-2 grid gap-4 h-[300px]">
                 <img
                   src={template.image_url}
                   alt={template.title}
                   className="w-full h-32 object-cover rounded"
                 />
-                <CardTitle className="min-h-14">
+                <CardTitle className="line-clamp-3">
                   {template.template_name}
                 </CardTitle>
-                <CardDescription className=" line-clamp-3">
+                <CardDescription className="line-clamp-3 max-h-10">
                   {template.template_description}
                 </CardDescription>
                 <div className="text-sm italic">{template.author.name}</div>
