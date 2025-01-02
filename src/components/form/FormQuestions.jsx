@@ -8,12 +8,10 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useForm, FormProvider } from "react-hook-form";
-import { useGetFormQuery } from "@/state/slices/forms/formApiSlice";
 import { useSelector } from "react-redux";
 import FormCheckbox from "./FormCheckbox";
 
-function FormQuestions({ id, isDisabled }) {
-  const { data: form } = useGetFormQuery(id);
+function FormQuestions({ id, isDisabled, form }) {
   const { user } = useSelector((state) => state.auth);
   const methods = useForm();
   const {
@@ -31,8 +29,8 @@ function FormQuestions({ id, isDisabled }) {
   };
 
   return (
-    <FormProvider {...methods}>
-      <div>
+    <div className="w-full sm:w-2/3 mx-auto h-full">
+      <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card className="p-5">
             <CardHeader className="grid gap-4 break-all">
@@ -129,8 +127,8 @@ function FormQuestions({ id, isDisabled }) {
             </CardFooter>
           </Card>
         </form>
-      </div>
-    </FormProvider>
+      </FormProvider>
+    </div>
   );
 }
 

@@ -11,6 +11,7 @@ const ProtectedRoutes = () => {
 
   useEffect(() => {
     if (!user) {
+      localStorage.setItem("redirectAfterLogin", location.pathname);
       dispatch(openLoginModal());
       const from = location.state?.from || "/";
       navigate(from);

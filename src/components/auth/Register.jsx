@@ -19,6 +19,8 @@ import {
   closeRegistrationModal,
   openLoginModal,
 } from "@/state/slices/auth/authModalSlice";
+import { useToast } from "@/hooks/use-toast";
+import { Icon } from "@iconify/react";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("This field is required."),
@@ -32,6 +34,7 @@ function Register({ isOpen }) {
   const navigate = useNavigate();
   const [signup, { isLoading }] = useSignupMutation();
   const { user } = useSelector((state) => state.auth);
+  const { toast } = useToast();
 
   const closeRegister = () => {
     dispatch(closeRegistrationModal());
@@ -50,12 +53,26 @@ function Register({ isOpen }) {
     resolver: yupResolver(validationSchema),
   });
 
+  const callToast = (variant, message) => {
+    toast({
+      variant: variant,
+      description: message,
+    });
+  };
+
   const onSubmit = async (data) => {
     try {
       const res = await signup(data).unwrap();
       dispatch(setCredentials(res.user));
-      navigate("/main");
-    } catch (error) {}
+      callToast("success", res.message);
+      const redirectUrl = localStorage.getItem("redirectAfterLogin");
+      localStorage.removeItem("redirectAfterLogin");
+      closeRegister();
+      navigate(redirectUrl);
+      redirectUrl && navigate(redirectUrl);
+    } catch (error) {
+      callToast("destructive", error.data.message);
+    }
   };
   return (
     <div>
@@ -138,9 +155,16 @@ function Register({ isOpen }) {
               </div>
               <div className="grid gap-2">
                 <Button
+                  disabled={isLoading}
                   type="submit"
                   className="w-full bg-blue-700 hover:bg-blue-500"
                 >
+                  {isLoading && (
+                    <Icon
+                      icon="lucide:loader-circle"
+                      className="animate-spin"
+                    />
+                  )}
                   Register
                 </Button>
                 <Button variant="outline" className="w-full">

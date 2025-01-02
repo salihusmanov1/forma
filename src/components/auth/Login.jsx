@@ -20,6 +20,7 @@ import {
 } from "@/state/slices/auth/authModalSlice";
 import { Icon } from "@iconify/react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -33,6 +34,7 @@ function Login({ isOpen }) {
   const { toast } = useToast();
   const [login, { isLoading }] = useLoginMutation();
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const closeLogin = () => {
     dispatch(closeLoginModal());
@@ -63,7 +65,10 @@ function Login({ isOpen }) {
       const res = await login(data).unwrap();
       dispatch(setCredentials(res.user));
       callToast("success", res.message);
+      const redirectUrl = localStorage.getItem("redirectAfterLogin");
+      localStorage.removeItem("redirectAfterLogin");
       closeLogin();
+      redirectUrl && navigate(redirectUrl);
     } catch (error) {
       callToast("destructive", error.data.message);
     }

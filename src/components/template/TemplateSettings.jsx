@@ -16,10 +16,13 @@ import { Label } from "../ui/label";
 import { Icon } from "@iconify/react";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import { useGetTopicsQuery } from "@/state/slices/topics/topicsApiSlice";
+import Tags from "./Tags";
 
 function TemplateSettings({ template, imageUrl, setImgUrl }) {
   const { setValue, watch } = useFormContext();
   const topic = watch("topic_id");
+  const { data: topics } = useGetTopicsQuery();
 
   useEffect(() => {
     if (template?.data.image_url) {
@@ -33,7 +36,7 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
     setImgUrl(URL.createObjectURL(file));
   };
   return (
-    <div className="w-2/3 mx-auto h-full">
+    <div className="w-full sm:w-2/3 mx-auto h-full">
       <Card>
         <CardHeader>
           <CardTitle>Settings</CardTitle>
@@ -52,9 +55,11 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
+                {topics?.data.map((item, index) => (
+                  <SelectItem key={index} value={item.id}>
+                    {item.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -97,6 +102,12 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
                 </p>
               </div>
             </div>
+          </div>
+          <div className="flex items-center w-full">
+            <Label htmlFor="tags" className="w-[64px]">
+              Tags
+            </Label>
+            <Tags />
           </div>
         </CardContent>
         <CardFooter></CardFooter>

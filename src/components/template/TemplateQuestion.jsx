@@ -81,13 +81,15 @@ function TemplateQuestion({
                 isReadonly={isReadonly}
               />
             )}
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="mx-3 text-red-500 hover:text-red-700"
-            >
-              <Icon icon="lucide:trash" />
-            </button>
+            {!isReadonly && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="mx-3 text-red-500 hover:text-red-700"
+              >
+                <Icon icon="lucide:trash" />
+              </button>
+            )}
           </div>
         </div>
       </Reorder.Item>

@@ -97,7 +97,7 @@ function TemplateQuestions({
   };
 
   return (
-    <div className="w-2/3 mx-auto h-full">
+    <div className="w-full sm:w-2/3 mx-auto h-full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card className="p-5">
           <CardHeader className="grid gap-4 break-all">

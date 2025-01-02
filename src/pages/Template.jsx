@@ -12,17 +12,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { openLoginModal } from "@/state/slices/auth/authModalSlice";
 import { useCreateFormMutation } from "@/state/slices/forms/formApiSlice";
 import { FormProvider, useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
+import { Icon } from "@iconify/react";
 
 export default function Template() {
   let { id } = useParams();
   const { user } = useSelector((state) => state.auth);
-  const { data: template, refetch } = useGetTemplateQuery(id, { skip: !id });
+  const {
+    data: template,
+    refetch,
+    error,
+    isLoading,
+  } = useGetTemplateQuery(id, { skip: !id });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [createForm, { isLoading: formLoading }] = useCreateFormMutation();
   const [createTemplate, { isLoading: templateLoading }] =
     useCreateTemplateMutation();
   const [imageUrl, setImgUrl] = useState("");
+  const { toast } = useToast();
 
   const methods = useForm({
     defaultValues: async () => {
@@ -31,6 +39,8 @@ export default function Template() {
           questions: [{ question: "Question", type: "single_line" }],
           template_name: "Template Title",
           template_description: "Template Description",
+          topic_id: "",
+          tags: [],
         };
       }
       return template.data;
@@ -51,7 +61,8 @@ export default function Template() {
   function getFormData(data) {
     const formData = new FormData();
     for (const key in data) {
-      if (key === "questions") formData.append(key, JSON.stringify(data[key]));
+      if (key === "questions" || key === "tags")
+        formData.append(key, JSON.stringify(data[key]));
       else formData.append(key, data[key]);
     }
     return formData;
@@ -85,14 +96,34 @@ export default function Template() {
       }).unwrap();
       navigate(`/form/${form.data.id}`);
     } catch (error) {
-      console.error("Error creating form:", error);
+      toast({
+        variant: "destructive",
+        description: error.data.message,
+      });
     }
   };
+
+  if (error?.status === 404)
+    return (
+      <div className="m-12">
+        <h1 className="text-4xl font-bold">Not Found</h1>
+      </div>
+    );
+
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center w-full h-screen">
+        <Icon
+          icon="lucide:loader-circle"
+          className="animate-spin text-blue-500 size-10"
+        />
+      </div>
+    );
 
   return (
     <div className="bg-zinc-100 py-10 min-h-screen">
       <Tabs defaultValue="questions" className="w-full">
-        {(user.id == template?.data.author_id || !id) && (
+        {(user?.id == template?.data.author_id || !id) && (
           <TabsList className="grid w-[320px] grid-cols-2 mx-auto">
             <TabsTrigger value="questions">Questions</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -114,6 +145,7 @@ export default function Template() {
               template={template}
               imageUrl={imageUrl}
               setImgUrl={setImgUrl}
+              onSubmit={onSubmit}
             />
           </TabsContent>
         </FormProvider>

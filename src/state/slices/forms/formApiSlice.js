@@ -19,6 +19,13 @@ export const formsApi = createApi({
         body: form,
       }),
     }),
+    updateForm: builder.mutation({
+      query: ({ id, form }) => ({
+        url: `/form/${id}`,
+        method: 'PUT',
+        body: form,
+      }),
+    }),
     getForm: builder.query({
       query: (id) => ({
         url: `/form/${id}`,
@@ -27,4 +34,4 @@ export const formsApi = createApi({
     }),
   })
 })
-export const { useGetFormsQuery, useCreateFormMutation, useGetFormQuery } = formsApi;
+export const { useGetFormsQuery, useCreateFormMutation, useGetFormQuery, useUpdateFormMutation } = formsApi;
