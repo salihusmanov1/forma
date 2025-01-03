@@ -68,7 +68,6 @@ function Register({ isOpen }) {
       const redirectUrl = localStorage.getItem("redirectAfterLogin");
       localStorage.removeItem("redirectAfterLogin");
       closeRegister();
-      navigate(redirectUrl);
       redirectUrl && navigate(redirectUrl);
     } catch (error) {
       callToast("destructive", error.data.message);

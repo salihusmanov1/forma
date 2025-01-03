@@ -68,6 +68,8 @@ function Login({ isOpen }) {
       const redirectUrl = localStorage.getItem("redirectAfterLogin");
       localStorage.removeItem("redirectAfterLogin");
       closeLogin();
+      console.log(redirectUrl);
+
       redirectUrl && navigate(redirectUrl);
     } catch (error) {
       callToast("destructive", error.data.message);
