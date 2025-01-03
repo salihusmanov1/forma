@@ -103,7 +103,7 @@ export default function Template() {
     } catch (error) {
       toast({
         variant: "destructive",
-        description: error?.data.message,
+        description: error?.data?.message,
       });
     }
   };
