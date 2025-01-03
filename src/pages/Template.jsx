@@ -68,14 +68,10 @@ export default function Template() {
     return formData;
   }
 
-  const requireLogin = () => {
+  const createNewForm = async () => {
     if (!user) {
       return dispatch(openLoginModal());
     }
-  };
-
-  const createNewForm = async () => {
-    requireLogin();
     try {
       const res = await createForm({
         template_id: id,
@@ -88,7 +84,9 @@ export default function Template() {
   };
 
   const onSubmit = async (data) => {
-    requireLogin();
+    if (!user) {
+      return dispatch(openLoginModal());
+    }
     try {
       data.questions.forEach((item, index) => {
         item.order = index;
