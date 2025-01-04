@@ -11,11 +11,13 @@ import { useLogoutMutation } from "@/state/slices/auth/authApiSlice";
 import { clearCredentials } from "@/state/slices/auth/authSlice";
 import { Icon } from "@iconify/react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 export default function NavUser({ user }) {
   const [logout, { isLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const callToast = (variant, message) => {
     toast({
@@ -27,8 +29,10 @@ export default function NavUser({ user }) {
   const logoutUser = async () => {
     try {
       const res = await logout().unwrap();
-      dispatch(clearCredentials());
+      navigate("/");
       callToast("success", res.message);
+      localStorage.removeItem("redirectAfterLogin");
+      dispatch(clearCredentials());
     } catch (error) {
       callToast("destructive", error.data.message);
     }

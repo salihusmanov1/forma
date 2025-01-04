@@ -16,7 +16,7 @@ const ProtectedRoutes = () => {
       const from = location.state?.from || "/";
       navigate(from);
     }
-  }, [user, dispatch, navigate, location]);
+  }, [dispatch, navigate, location]);
 
   return user ? <Outlet /> : null;
 };

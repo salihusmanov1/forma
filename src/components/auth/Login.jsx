@@ -21,6 +21,7 @@ import {
 import { Icon } from "@iconify/react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router";
+import { callToast } from "@/utils.js/toastUtils";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -53,18 +54,11 @@ function Login({ isOpen }) {
     resolver: yupResolver(validationSchema),
   });
 
-  const callToast = (variant, message) => {
-    toast({
-      variant: variant,
-      description: message,
-    });
-  };
-
   const onSubmit = async (data) => {
     try {
       const res = await login(data).unwrap();
       dispatch(setCredentials(res.user));
-      callToast("success", res.message);
+      callToast(toast, "success", res.message);
       const redirectUrl = localStorage.getItem("redirectAfterLogin");
       localStorage.removeItem("redirectAfterLogin");
       closeLogin();
@@ -72,7 +66,7 @@ function Login({ isOpen }) {
 
       redirectUrl && navigate(redirectUrl);
     } catch (error) {
-      callToast("destructive", error.data.message);
+      callToast(toast, "destructive", error.data.message);
     }
   };
   return (

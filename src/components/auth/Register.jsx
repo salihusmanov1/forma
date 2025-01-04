@@ -21,6 +21,7 @@ import {
 } from "@/state/slices/auth/authModalSlice";
 import { useToast } from "@/hooks/use-toast";
 import { Icon } from "@iconify/react";
+import { callToast } from "@/utils.js/toastUtils";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("This field is required."),
@@ -53,24 +54,17 @@ function Register({ isOpen }) {
     resolver: yupResolver(validationSchema),
   });
 
-  const callToast = (variant, message) => {
-    toast({
-      variant: variant,
-      description: message,
-    });
-  };
-
   const onSubmit = async (data) => {
     try {
       const res = await signup(data).unwrap();
       dispatch(setCredentials(res.user));
-      callToast("success", res.message);
+      callToast(toast, "success", res.message);
       const redirectUrl = localStorage.getItem("redirectAfterLogin");
       localStorage.removeItem("redirectAfterLogin");
       closeRegister();
       redirectUrl && navigate(redirectUrl);
     } catch (error) {
-      callToast("destructive", error.data.message);
+      callToast(toast, "destructive", error.data.message);
     }
   };
   return (

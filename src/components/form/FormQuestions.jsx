@@ -10,6 +10,10 @@ import { Button } from "@/components/ui/button";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSelector } from "react-redux";
 import FormCheckbox from "./FormCheckbox";
+import { useCreateResponseMutation } from "@/state/slices/forms/responseApiSlice";
+import { Icon } from "@iconify/react";
+import { callToast } from "@/utils.js/toastUtils";
+import { useToast } from "@/hooks/use-toast";
 
 function FormQuestions({ id, isDisabled, form }) {
   const { user } = useSelector((state) => state.auth);
@@ -23,15 +27,30 @@ function FormQuestions({ id, isDisabled, form }) {
     control,
     reset,
   } = methods;
+  const [createResponse, { isLoading }] = useCreateResponseMutation();
+  const { toast } = useToast();
 
-  const onSubmit = async (data) => {
-    console.log(data);
+  const onSubmitResponse = async (data) => {
+    try {
+      const res = await createResponse({
+        respondent_id: user.id,
+        form_id: id,
+        response: data,
+      }).unwrap();
+      console.log(res.message);
+
+      callToast(toast, "success", res.message);
+    } catch (error) {
+      console.log(error);
+
+      callToast(toast, "destructive", error.data.message);
+    }
   };
 
   return (
     <div className="w-full sm:w-2/3 mx-auto h-full">
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmitResponse)}>
           <Card className="p-5">
             <CardHeader className="grid gap-4 break-all">
               <label className="focus:outline-none pb-10 text-4xl font-bold tracking-tight lg:text-5xl">
@@ -115,12 +134,12 @@ function FormQuestions({ id, isDisabled, form }) {
             <CardFooter>
               {!isDisabled && (
                 <Button type="submit">
-                  {/* {isLoading && (
+                  {isLoading && (
                     <Icon
                       icon="lucide:loader-circle"
                       className="animate-spin"
                     />
-                  )} */}
+                  )}
                   Submit
                 </Button>
               )}

@@ -14,6 +14,7 @@ import { useCreateFormMutation } from "@/state/slices/forms/formApiSlice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { Icon } from "@iconify/react";
+import { callToast } from "@/utils.js/toastUtils";
 
 export default function Template() {
   let { id } = useParams();
@@ -99,10 +100,7 @@ export default function Template() {
       }).unwrap();
       navigate(`/form/${form.data.id}`);
     } catch (error) {
-      toast({
-        variant: "destructive",
-        description: error?.data?.message,
-      });
+      callToast(toast, "destructive", error?.data.errors[0].message);
     }
   };
 

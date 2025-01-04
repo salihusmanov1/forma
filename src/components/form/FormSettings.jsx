@@ -26,7 +26,7 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
   const [updateForm, { isLoading }] = useUpdateFormMutation();
 
   useEffect(() => {
-    setFormLink(`${window.location.origin}/form/${id}`);
+    setFormLink(`${window.location.origin}/${id}`);
     setIsPublic(form.data.is_public);
   }, [id, form]);
 
