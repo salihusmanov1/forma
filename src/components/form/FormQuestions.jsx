@@ -7,7 +7,7 @@ function FormQuestions({ form }) {
   return (
     <div className="w-full sm:w-2/3 mx-auto h-full">
       <Card className="p-5">
-        <CardHeader className="grid gap-4 break-all">
+        <CardHeader className="grid gap-4 px-8 break-all">
           <label className="focus:outline-none pb-6 text-4xl font-bold tracking-tight lg:text-5xl">
             {form?.data.template.template_name}
           </label>

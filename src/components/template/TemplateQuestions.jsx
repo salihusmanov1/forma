@@ -100,7 +100,7 @@ function TemplateQuestions({
     <div className="w-full sm:w-2/3 mx-auto h-full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card className="p-5">
-          <CardHeader className="grid gap-4 break-all">
+          <CardHeader className="grid gap-4 px-8 break-all">
             <label
               className="focus:outline-none cursor-text pb-6 text-4xl font-bold tracking-tight lg:text-5xl"
               contentEditable={!isReadonly}
