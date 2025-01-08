@@ -100,9 +100,9 @@ function TemplateQuestions({
     <div className="w-full sm:w-2/3 mx-auto h-full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card className="p-5">
-          <CardHeader className="grid gap-4 px-8 break-all">
+          <CardHeader className="grid gap-4  break-all">
             <label
-              className="focus:outline-none cursor-text pb-6 text-4xl font-bold tracking-tight lg:text-5xl"
+              className="focus:outline-none cursor-text pb-6 text-4xl font-bold tracking-tight lg:text-5xl break-normal"
               contentEditable={!isReadonly}
               suppressContentEditableWarning
               onInput={(e) => handleTitleChange(e)}
@@ -111,7 +111,7 @@ function TemplateQuestions({
             </label>
 
             <label
-              className="focus:outline-none cursor-text pb-10  leading-7 text-2xl"
+              className="focus:outline-none cursor-text pb-10  leading-7 text-2xl break-normal"
               contentEditable={!isReadonly}
               suppressContentEditableWarning
               onInput={(e) => handleDescriptionChange(e)}

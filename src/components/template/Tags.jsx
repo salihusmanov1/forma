@@ -1,18 +1,27 @@
+import { useEffect, useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
 
-function Tags() {
+function Tags({ tagList }) {
   const { control } = useFormContext();
-
-  const tags = useFieldArray({
+  const { fields, replace } = useFieldArray({
     name: "tags",
     control,
   });
 
-  console.log(tags.fields);
+  const options = tagList?.data?.map((tag) => ({
+    label: tag.name,
+    value: tag.name.toLowerCase().replace(/\W/g, ""),
+  }));
 
-  const handleChange = (arr) => {
-    tags.replace(arr);
+  const handleCreate = (input) => {
+    const newTag = {
+      label: input,
+      value: input.toLowerCase().replace(/\W/g, ""),
+      name: input,
+    };
+
+    replace([...fields, newTag]);
   };
 
   return (
@@ -20,9 +29,12 @@ function Tags() {
       className="w-full"
       id="tags"
       isMulti
-      value={tags.fields}
-      onChange={(e) => handleChange(e)}
-      options={tags.fields}
+      value={fields.map((tag) => ({
+        label: tag.name,
+        value: tag.name.toLowerCase().replace(/\W/g, ""),
+      }))}
+      options={options}
+      onCreateOption={handleCreate}
       theme={(theme) => ({
         ...theme,
         borderRadius: "6px",

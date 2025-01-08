@@ -18,11 +18,13 @@ import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useGetTopicsQuery } from "@/state/slices/topics/topicsApiSlice";
 import Tags from "./Tags";
+import { useGetTagsQuery } from "@/state/slices/tags/tagsApiSlice";
 
 function TemplateSettings({ template, imageUrl, setImgUrl }) {
   const { setValue, watch } = useFormContext();
   const topic = watch("topic_id");
   const { data: topics } = useGetTopicsQuery();
+  const { data: tags } = useGetTagsQuery();
 
   useEffect(() => {
     if (template?.data.image_url) {
@@ -36,7 +38,7 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
     setImgUrl(URL.createObjectURL(file));
   };
   return (
-    <div className="w-full sm:w-2/3 mx-auto h-full">
+    <div className="w-full sm:w-2/3 mx-auto h-screen">
       <Card>
         <CardHeader>
           <CardTitle>Settings</CardTitle>
@@ -107,7 +109,7 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
             <Label htmlFor="tags" className="w-[64px]">
               Tags
             </Label>
-            <Tags />
+            <Tags tagList={tags} />
           </div>
         </CardContent>
         <CardFooter></CardFooter>

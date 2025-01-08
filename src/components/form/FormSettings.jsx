@@ -17,31 +17,43 @@ import {
 } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import { useUpdateFormMutation } from "@/state/slices/forms/formApiSlice";
+import { callToast } from "@/utils.js/toastUtils";
+import { useToast } from "@/hooks/use-toast";
+import * as Yup from "yup";
 
 function FormSettings({ id, allowedEmails, handleSubmit, form }) {
   const [copied, setCopied] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
   const [inputEmail, setInputEmail] = useState("");
   const [formLink, setFormLink] = useState();
+  const [error, setError] = useState("");
   const [updateForm, { isLoading }] = useUpdateFormMutation();
+  const { toast } = useToast();
+
+  const emailSchema = Yup.string()
+    .email("Please enter a valid email address.")
+    .required("Email address is required.");
 
   useEffect(() => {
     setFormLink(`${window.location.origin}/${id}`);
     setIsPublic(form.data.is_public);
   }, [id, form]);
 
-  console.log(allowedEmails.fields);
-
   const setToPublic = (e) => {
     e.preventDefault();
     setIsPublic(true);
-    allowedEmails.replace([]);
   };
 
-  const addEmail = (e) => {
-    e.preventDefault();
-    allowedEmails.append({ user_email: inputEmail });
-    setInputEmail("");
+  const addEmail = async (e) => {
+    try {
+      await emailSchema.validate(inputEmail);
+      setError("");
+      e.preventDefault();
+      allowedEmails.append({ user_email: inputEmail });
+      setInputEmail("");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const removeEmail = (e, index) => {
@@ -50,10 +62,18 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
   };
 
   const onSubmit = async (data) => {
-    await updateForm({
-      id,
-      form: { allowedEmails: data.allowedEmails, is_public: isPublic },
-    });
+    try {
+      const res = await updateForm({
+        id,
+        form: {
+          allowedEmails: isPublic ? [] : data.allowedEmails,
+          is_public: isPublic,
+        },
+      }).unwrap();
+      callToast(toast, "success", res.message);
+    } catch (error) {
+      callToast(toast, "destructive", error.data.message);
+    }
   };
 
   return (
@@ -115,6 +135,7 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
                         placeholder="Add email address"
                         className="flex-1"
                       />
+
                       <Button
                         onClick={addEmail}
                         type="button"
@@ -123,6 +144,11 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
                         Add
                       </Button>
                     </div>
+                    {error && (
+                      <div className="text-red-500 font-semibold text-sm ml-1">
+                        {error}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -137,7 +163,10 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
                   readOnly
                   className="flex-1 bg-transparent border-none focus:outline-none text-sm"
                 />
-                <button className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
                   {copied ? (
                     <>
                       <Icon icon="lucide:check" className="w-4 h-4" />
@@ -152,48 +181,50 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
                 </button>
               </div>
 
-              <div className="space-y-2">
-                {allowedEmails.fields.map((field, index) => (
-                  <div
-                    key={field.id}
-                    className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarFallback className="bg-blue-100 text-blue-600">
-                          <Icon icon="lucide:mail" className="w-4 h-4" />
-                        </AvatarFallback>
-                      </Avatar>
+              {!isPublic && (
+                <div className="space-y-2">
+                  {allowedEmails.fields.map((field, index) => (
+                    <div
+                      key={field.id}
+                      className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar>
+                          <AvatarFallback className="bg-blue-100 text-blue-600">
+                            <Icon icon="lucide:mail" className="w-4 h-4" />
+                          </AvatarFallback>
+                        </Avatar>
 
-                      <div>
-                        <div className="text-sm font-medium">
-                          {field.user_email}
+                        <div>
+                          <div className="text-sm font-medium">
+                            {field.user_email}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex items-center gap-2">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 p-0"
-                              onClick={(e) => removeEmail(e, index)}
-                            >
-                              <Icon icon="lucide:x" className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Remove access</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                      <div className="flex items-center gap-2">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 p-0"
+                                onClick={(e) => removeEmail(e, index)}
+                              >
+                                <Icon icon="lucide:x" className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Remove access</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
             <CardFooter>
               <Button

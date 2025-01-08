@@ -124,7 +124,7 @@ export default function Template() {
   return (
     <div className="bg-zinc-100 py-10 min-h-screen">
       <Tabs defaultValue="questions" className="w-full">
-        {(user?.id == template?.data.author_id || !id) && (
+        {!id && (
           <TabsList className="grid w-[320px] grid-cols-2 mx-auto">
             <TabsTrigger value="questions">Questions</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
