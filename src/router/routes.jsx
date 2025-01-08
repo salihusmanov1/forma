@@ -5,9 +5,9 @@ import App from "../App";
 import Templates from "../pages/Templates";
 import Template from "../pages/Template";
 import Form from "@/pages/Form";
+import ResponseForm from "@/pages/ResponseForm";
 
 import ProtectedRoutes from "./ProtectedRoutes";
-import FormQuestions from "@/components/form/FormQuestions";
 
 export const router = createBrowserRouter([
   {
@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: ":id",
-                Component: Form,
+                Component: ResponseForm,
               },
             ],
           },

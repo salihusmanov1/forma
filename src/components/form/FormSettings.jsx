@@ -50,8 +50,6 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     await updateForm({
       id,
       form: { allowedEmails: data.allowedEmails, is_public: isPublic },

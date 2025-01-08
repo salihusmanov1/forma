@@ -102,7 +102,7 @@ function TemplateQuestions({
         <Card className="p-5">
           <CardHeader className="grid gap-4 break-all">
             <label
-              className="focus:outline-none cursor-text pb-10 text-4xl font-bold tracking-tight lg:text-5xl"
+              className="focus:outline-none cursor-text pb-6 text-4xl font-bold tracking-tight lg:text-5xl"
               contentEditable={!isReadonly}
               suppressContentEditableWarning
               onInput={(e) => handleTitleChange(e)}
@@ -111,7 +111,7 @@ function TemplateQuestions({
             </label>
 
             <label
-              className="focus:outline-none cursor-text pb-10  leading-7 text-xl"
+              className="focus:outline-none cursor-text pb-10  leading-7 text-2xl"
               contentEditable={!isReadonly}
               suppressContentEditableWarning
               onInput={(e) => handleDescriptionChange(e)}

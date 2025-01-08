@@ -6,26 +6,31 @@ export const responseApi = createApi({
   reducerPath: "responseApi",
   baseQuery,
   endpoints: (builder) => ({
-    // getForms: builder.query({
-    //   query: () => ({
-    //     url: '/form',
-    //     method: 'GET',
-    //   }),
-    // }),
-    createResponse: builder.mutation({
-      query: (response) => ({
-        url: '/response',
-        method: 'POST',
-        body: response,
+    getResponse: builder.query({
+      query: ({ id, userId }) => ({
+        url: `/response/${id}/${userId}`,
+        method: 'GET',
       }),
     }),
-    // updateForm: builder.mutation({
-    //   query: ({ id, form }) => ({
-    //     url: `/form/${id}`,
-    //     method: 'PUT',
-    //     body: form,
-    //   }),
-    // }),
+    createResponse: builder.mutation({
+      query: (response) => {
+        console.log(response);
+        return {
+          url: '/response',
+          method: 'POST',
+          body: response,
+        }
+      },
+    }),
+    updateResponse: builder.mutation({
+      query: ({ id, answers }) => {
+        return {
+          url: `/response/${id}`,
+          method: 'PUT',
+          body: { answers },
+        };
+      },
+    }),
     // getForm: builder.query({
     //   query: (id) => ({
     //     url: `/form/${id}`,
@@ -34,4 +39,4 @@ export const responseApi = createApi({
     // }),
   })
 })
-export const { useCreateResponseMutation } = responseApi;
+export const { useCreateResponseMutation, useGetResponseQuery, useUpdateResponseMutation } = responseApi;

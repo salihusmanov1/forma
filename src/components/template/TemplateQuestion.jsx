@@ -37,7 +37,7 @@ function TemplateQuestion({
           setActive("shadow-none");
         }}
         dragListener={!isReadonly}
-        className={`grid gap-2 p-4 border-2 border-white ${
+        className={`grid gap-2 py-4 border-2 border-white ${
           !isReadonly ? "hover:border-blue-600" : ""
         } rounded-lg border-current bg-white ${active}`}
       >

@@ -1,152 +1,77 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useForm, FormProvider } from "react-hook-form";
-import { useSelector } from "react-redux";
-import FormCheckbox from "./FormCheckbox";
-import { useCreateResponseMutation } from "@/state/slices/forms/responseApiSlice";
-import { Icon } from "@iconify/react";
-import { callToast } from "@/utils.js/toastUtils";
-import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "../ui/checkbox";
 
-function FormQuestions({ id, isDisabled, form }) {
-  const { user } = useSelector((state) => state.auth);
-  const methods = useForm();
-  const {
-    register,
-    getValues,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    control,
-    reset,
-  } = methods;
-  const [createResponse, { isLoading }] = useCreateResponseMutation();
-  const { toast } = useToast();
-
-  const onSubmitResponse = async (data) => {
-    try {
-      const res = await createResponse({
-        respondent_id: user.id,
-        form_id: id,
-        response: data,
-      }).unwrap();
-      console.log(res.message);
-
-      callToast(toast, "success", res.message);
-    } catch (error) {
-      console.log(error);
-
-      callToast(toast, "destructive", error.data.message);
-    }
-  };
-
+function FormQuestions({ form }) {
   return (
     <div className="w-full sm:w-2/3 mx-auto h-full">
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmitResponse)}>
-          <Card className="p-5">
-            <CardHeader className="grid gap-4 break-all">
-              <label className="focus:outline-none pb-10 text-4xl font-bold tracking-tight lg:text-5xl">
-                {form?.data.template.template_name}
-              </label>
+      <Card className="p-5">
+        <CardHeader className="grid gap-4 break-all">
+          <label className="focus:outline-none pb-6 text-4xl font-bold tracking-tight lg:text-5xl">
+            {form?.data.template.template_name}
+          </label>
 
-              <label className="focus:outline-none pb-10 leading-7 text-xl">
-                {form?.data.template.template_description}
-              </label>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              {form?.data.template.questions.map((field, index) => (
-                <div key={field.id} className="grid gap-2 p-4">
-                  <div className="flex font-medium">
-                    <p className="mr-2 mb-2">{index + 1}.</p>
-                    <label className="focus:outline-none">
-                      {field.question}
-                    </label>
-                  </div>
-                  {field.type === "single_line" && (
-                    <div>
-                      <Input
-                        type="text"
-                        {...register(`${field.id}`)}
-                        disabled={isDisabled}
-                        className={
-                          isDisabled
-                            ? "disabled:cursor-auto disabled:opacity-100"
-                            : ""
-                        }
-                      />
-                    </div>
-                  )}
-                  {field.type === "multi_line" && (
-                    <div>
-                      <Textarea
-                        rows="3"
-                        {...register(`${field.id}`)}
-                        disabled={isDisabled}
-                        className={
-                          isDisabled
-                            ? "disabled:cursor-auto disabled:opacity-100"
-                            : ""
-                        }
-                      />
-                    </div>
-                  )}
-                  {field.type === "numeric" && (
-                    <div>
-                      <Input
-                        type="number"
-                        min="0"
-                        className={`lg:w-1/3 ${
-                          isDisabled
-                            ? "disabled:cursor-auto disabled:opacity-100"
-                            : ""
-                        }`}
-                        {...register(`${field.id}`)}
-                        disabled={isDisabled}
-                      />
-                    </div>
-                  )}
-                  {field.type === "checkbox" && (
-                    <div>
-                      {field.options.map((option, option_index) => (
-                        <div key={option_index} className="grid gap-4 p-2">
-                          <FormCheckbox
-                            index={index}
-                            option_index={option_index}
-                            option={option}
-                            field={field}
-                            isDisabled={isDisabled}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
+          <label className="focus:outline-none pb-10 leading-7 text-2xl">
+            {form?.data.template.template_description}
+          </label>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          {form?.data.template.questions.map((field, index) => {
+            return (
+              <div key={field.id} className="grid gap-2 py-4">
+                <div className="flex font-medium">
+                  <p className="mr-2 mb-2">{index + 1}.</p>
+                  <label className="focus:outline-none">{field.question}</label>
                 </div>
-              ))}
-            </CardContent>
-            <CardFooter>
-              {!isDisabled && (
-                <Button type="submit">
-                  {isLoading && (
-                    <Icon
-                      icon="lucide:loader-circle"
-                      className="animate-spin"
-                    />
-                  )}
-                  Submit
-                </Button>
-              )}
-            </CardFooter>
-          </Card>
-        </form>
-      </FormProvider>
+                {field.type === "single_line" && (
+                  <Input
+                    type="text"
+                    disabled
+                    className="disabled:cursor-auto disabled:opacity-100"
+                  />
+                )}
+                {field.type === "multi_line" && (
+                  <Textarea
+                    disabled
+                    rows="3"
+                    className="disabled:cursor-auto disabled:opacity-100"
+                  />
+                )}
+                {field.type === "numeric" && (
+                  <Input
+                    type="id"
+                    disabled
+                    className="disabled:cursor-auto disabled:opacity-100 lg:w-1/3"
+                  />
+                )}
+                {field.type === "checkbox" && (
+                  <div>
+                    {field.options.map((option, option_index) => (
+                      <div key={option_index} className="grid gap-4 p-2">
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`${index}_${option_index}`}
+                            disabled
+                            className="disabled:cursor-auto"
+                          />
+
+                          <label
+                            htmlFor={`${index}_${option_index}`}
+                            className="text-sm font-medium leading-none focus:outline-none cursor-text"
+                          >
+                            {option.name}
+                          </label>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
     </div>
   );
 }

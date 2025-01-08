@@ -1,19 +1,19 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLocation } from "react-router";
 import { useParams } from "react-router";
 import FormQuestions from "@/components/form/FormQuestions";
 import FormSettings from "@/components/form/FormSettings";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useGetFormQuery } from "@/state/slices/forms/formApiSlice";
 import { Icon } from "@iconify/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function Form() {
   let { id } = useParams();
-  const location = useLocation();
-  const isCreator = location.pathname.startsWith("/form");
   const { control, handleSubmit } = useForm();
   const { data: form, error, isLoading } = useGetFormQuery(id);
+  const { user } = useSelector((state) => state.auth);
+  const [isCreator, setIsCreator] = useState(true);
 
   const allowedEmails = useFieldArray({
     name: "allowedEmails",
@@ -21,7 +21,13 @@ function Form() {
   });
 
   useEffect(() => {
-    if (form?.data) allowedEmails.replace(form.data.allowed_users);
+    setIsCreator(user.id == form?.data.user_id);
+  }, [user.id, form]);
+
+  useEffect(() => {
+    if (form?.data) {
+      allowedEmails.replace(form.data.allowed_users);
+    }
   }, [form]);
 
   if (isLoading)
@@ -34,7 +40,7 @@ function Form() {
       </div>
     );
 
-  if (error?.status === 403)
+  if (error?.status === 403 || !isCreator)
     return (
       <div className="m-12">
         <h1 className="text-4xl font-bold">Access Denied!</h1>
@@ -44,13 +50,12 @@ function Form() {
   return (
     <div className="bg-zinc-100 py-10 min-h-screen">
       <Tabs defaultValue="questions" className="w-full">
-        {isCreator && (
-          <TabsList className="grid w-[320px] mx-auto grid-cols-3 mb-2">
-            <TabsTrigger value="questions">Questions</TabsTrigger>
-            <TabsTrigger value="responses">Responses</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
-        )}
+        <TabsList className="grid w-[320px] mx-auto grid-cols-3 mb-2">
+          <TabsTrigger value="questions">Questions</TabsTrigger>
+          <TabsTrigger value="responses">Responses</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
+        </TabsList>
+
         <div>
           <TabsContent value="questions">
             <FormQuestions id={id} isDisabled={isCreator} form={form} />
