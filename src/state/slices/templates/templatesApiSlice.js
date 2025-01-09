@@ -25,6 +25,12 @@ export const templatesApi = createApi({
         method: 'GET',
       }),
     }),
+    getUserTemplates: builder.query({
+      query: (id) => ({
+        url: `/templates/${id}`,
+        method: 'GET',
+      }),
+    }),
   })
 })
-export const { useGetTemplatesQuery, useCreateTemplateMutation, useGetTemplateQuery } = templatesApi;
+export const { useGetTemplatesQuery, useCreateTemplateMutation, useGetTemplateQuery, useGetUserTemplatesQuery } = templatesApi;

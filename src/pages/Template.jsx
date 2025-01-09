@@ -40,7 +40,7 @@ export default function Template() {
           questions: [{ question: "Question", type: "single_line" }],
           template_name: "Template Title",
           template_description: "Template Description",
-          topic_id: "",
+          topic_id: null,
           tags: [],
         };
       }
