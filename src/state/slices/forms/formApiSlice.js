@@ -7,8 +7,8 @@ export const formsApi = createApi({
   baseQuery,
   endpoints: (builder) => ({
     getForms: builder.query({
-      query: () => ({
-        url: '/form',
+      query: (id) => ({
+        url: `/forms/${id}`,
         method: 'GET',
       }),
     }),
@@ -32,6 +32,12 @@ export const formsApi = createApi({
         method: 'GET',
       }),
     }),
+    deleteForm: builder.mutation({
+      query: (id) => ({
+        url: `/form/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   })
 })
-export const { useGetFormsQuery, useCreateFormMutation, useGetFormQuery, useUpdateFormMutation } = formsApi;
+export const { useGetFormsQuery, useCreateFormMutation, useGetFormQuery, useUpdateFormMutation, useDeleteFormMutation } = formsApi;
