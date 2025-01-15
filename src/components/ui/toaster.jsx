@@ -22,7 +22,7 @@ export function Toaster() {
                 <Icon icon="lucide:circle-x" className="size-6 mr-2" />
               )}
               {props.variant === "success" && (
-                <Icon icon="lucide:check" className="size-6 mr-2" />
+                <Icon icon="lucide:circle-check" className="size-6 mr-2" />
               )}
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (

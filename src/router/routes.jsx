@@ -9,6 +9,7 @@ import ResponseForm from "@/pages/ResponseForm";
 
 import ProtectedRoutes from "./ProtectedRoutes";
 import UserDashboard from "@/pages/UserDashboard";
+import UserProfile from "@/pages/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
               {
                 path: ":id",
                 Component: ResponseForm,
+              },
+              {
+                path: "/profile",
+                Component: UserProfile,
               },
               {
                 path: "/dashboard",

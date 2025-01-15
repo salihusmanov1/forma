@@ -23,12 +23,6 @@ function Home() {
           </div>
 
           <div className="flex gap-2">
-            {/* <Button className="bg-slate-700" onClick={openLogin}>
-            Login
-          </Button>
-          <Button className="bg-slate-700" onClick={openRegister}>
-            Register
-          </Button> */}
             <Button className="bg-blue-700 text-md" onClick={navigateToMain}>
               Get Started
             </Button>

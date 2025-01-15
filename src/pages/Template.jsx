@@ -99,7 +99,7 @@ export default function Template() {
       }).unwrap();
       navigate(`/form/${form.data.id}`);
     } catch (error) {
-      callToast(toast, "destructive", error?.data.errors[0].message);
+      callToast(toast, "destructive", error?.data.message);
     }
   };
 

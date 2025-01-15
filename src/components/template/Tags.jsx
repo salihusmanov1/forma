@@ -2,7 +2,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
 
 function Tags({ tagList }) {
-  const { control, getValues } = useFormContext();
+  const { control } = useFormContext();
   const { fields, replace, remove, append } = useFieldArray({
     name: "tags",
     control,
@@ -15,8 +15,6 @@ function Tags({ tagList }) {
   }));
 
   const handleCreate = (input) => {
-    console.log(input);
-
     const newTag = {
       label: input,
       value: input,
@@ -36,7 +34,6 @@ function Tags({ tagList }) {
     updatedTags.forEach((tag) => append(tag));
   };
 
-  console.log(getValues().tags);
   return (
     <CreatableSelect
       className="w-full"

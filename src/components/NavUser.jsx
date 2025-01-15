@@ -57,6 +57,10 @@ export default function NavUser({ user }) {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => navigate("/profile")}>
+          <Icon icon="lucide:user" />
+          Profile
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => navigate("/dashboard")}>
           <Icon icon="lucide:layout-dashboard" />
           Dashboard

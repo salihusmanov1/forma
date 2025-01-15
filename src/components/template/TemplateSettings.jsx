@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -112,7 +106,6 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
             <Tags tagList={tags} />
           </div>
         </CardContent>
-        <CardFooter></CardFooter>
       </Card>
     </div>
   );

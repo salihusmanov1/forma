@@ -7,7 +7,8 @@ import { topicsApi } from "./slices/topics/topicsApiSlice";
 import authModalReducer from "./slices/auth/authModalSlice";
 import { responseApi } from "./slices/forms/responseApiSlice";
 import { tagsApi } from "./slices/tags/tagsApiSlice";
-
+import { sfApi } from "./slices/salesforce/sfApiSlice";
+import { rtkQueryErrorLogger } from "./errorHandler";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     [responseApi.reducerPath]: responseApi.reducer,
     [topicsApi.reducerPath]: topicsApi.reducer,
     [tagsApi.reducerPath]: tagsApi.reducer,
+    [sfApi.reducerPath]: sfApi.reducer,
     authModal: authModalReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
@@ -26,7 +28,9 @@ const store = configureStore({
     .concat(formsApi.middleware)
     .concat(responseApi.middleware)
     .concat(topicsApi.middleware)
-    .concat(tagsApi.middleware),
+    .concat(tagsApi.middleware)
+    .concat(sfApi.middleware)
+    .concat(rtkQueryErrorLogger),
   devTools: true
 })
 
