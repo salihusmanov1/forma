@@ -7,7 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetUserTemplatesQuery } from "@/state/slices/templates/templatesApiSlice";
+import { useToast } from "@/hooks/use-toast";
+import {
+  useDeleteTemplateMutation,
+  useGetUserTemplatesQuery,
+} from "@/state/slices/templates/templatesApiSlice";
+import { callToast } from "@/utils.js/toastUtils";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router";
@@ -18,23 +23,25 @@ function UserTemplates({ user }) {
     isLoading,
     refetch,
   } = useGetUserTemplatesQuery(user.id);
+  const [deleteTemplate] = useDeleteTemplateMutation();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const removeTemplate = async (id) => {
-    // try {
-    //   const res = await deleteForm(id).unwrap();
-    //   callToast(toast, "success", res.message);
-    //   refetch();
-    // } catch (error) {
-    //   callToast(toast, "destructive", error.data.message);
-    // }
+    try {
+      const res = await deleteTemplate(id).unwrap();
+      callToast(toast, "success", res.message);
+      refetch();
+    } catch (error) {
+      callToast(toast, "destructive", error.data.message);
+    }
   };
 
   return (
     <div className="m-6 grid gap-4">
-      <h2 className="text-2xl font-bold">My Forms</h2>
+      <h2 className="text-2xl font-bold">My Templates</h2>
       <Table>
-        <TableCaption>A list of your recent forms.</TableCaption>
+        <TableCaption>A list of your recent templates.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">ID</TableHead>

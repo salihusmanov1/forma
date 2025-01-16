@@ -24,7 +24,7 @@ export default function Templates() {
   };
 
   return (
-    <div className=" mx-auto p-10 lg:p-20">
+    <div className="mx-auto p-10 lg:p-20">
       <div className="flex gap-2 w-full lg:w-1/2 mx-auto">
         <Input type="text" placeholder="Search in All Form Templates"></Input>
         <Button className="bg-gray-600 hover:bg-gray-500">
@@ -39,9 +39,16 @@ export default function Templates() {
           <Icon icon="lucide:plus" /> Create Template
         </Button>
       </div>
-      <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {templates?.data.length > 0 ? (
-          templates.data.map((template) => (
+      {isLoading ? (
+        <div className="w-full flex justify-center">
+          <Icon
+            icon="lucide:loader-circle"
+            className="size-8 animate-spin text-blue-500"
+          />
+        </div>
+      ) : templates?.data.length > 0 ? (
+        <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {templates.data.map((template) => (
             <Card
               key={template.id}
               className="w-full max-w-sm mx-auto h-[26rem]"
@@ -96,11 +103,11 @@ export default function Templates() {
                 </Button>
               </CardFooter>
             </Card>
-          ))
-        ) : (
-          <div>No templates available.</div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div>No templates available.</div>
+      )}
     </div>
   );
 }

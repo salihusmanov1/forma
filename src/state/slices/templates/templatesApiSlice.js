@@ -31,6 +31,12 @@ export const templatesApi = createApi({
         method: 'GET',
       }),
     }),
+    deleteTemplate: builder.mutation({
+      query: (id) => ({
+        url: `/template/${id}`,
+        method: 'DELETE'
+      }),
+    }),
   })
 })
-export const { useGetTemplatesQuery, useCreateTemplateMutation, useGetTemplateQuery, useGetUserTemplatesQuery } = templatesApi;
+export const { useGetTemplatesQuery, useCreateTemplateMutation, useGetTemplateQuery, useGetUserTemplatesQuery, useDeleteTemplateMutation } = templatesApi;
