@@ -10,6 +10,7 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router";
 import { Badge } from "@/components/ui/badge";
 import { useGetTemplatesQuery } from "@/state/slices/templates/templatesApiSlice";
+import TemplatesSkeleton from "@/components/ui/skeletons/TemplatesSkeleton";
 
 export default function Templates() {
   const { data: templates, isLoading } = useGetTemplatesQuery();
@@ -40,12 +41,7 @@ export default function Templates() {
         </Button>
       </div>
       {isLoading ? (
-        <div className="w-full flex justify-center">
-          <Icon
-            icon="lucide:loader-circle"
-            className="size-8 animate-spin text-blue-500"
-          />
-        </div>
+        <TemplatesSkeleton />
       ) : templates?.data.length > 0 ? (
         <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {templates.data.map((template) => (
