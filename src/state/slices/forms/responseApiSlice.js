@@ -31,12 +31,12 @@ export const responseApi = createApi({
         };
       },
     }),
-    // getForm: builder.query({
-    //   query: (id) => ({
-    //     url: `/form/${id}`,
-    //     method: 'GET',
-    //   }),
-    // }),
+    getResponses: builder.query({
+      query: (id) => ({
+        url: `/responses/${id}`,
+        method: 'GET',
+      }),
+    }),
   })
 })
-export const { useCreateResponseMutation, useGetResponseQuery, useUpdateResponseMutation } = responseApi;
+export const { useCreateResponseMutation, useGetResponseQuery, useUpdateResponseMutation, useGetResponsesQuery } = responseApi;

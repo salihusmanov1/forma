@@ -7,6 +7,7 @@ import { useGetFormQuery } from "@/state/slices/forms/formApiSlice";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import FormResponses from "@/components/form/FormResponses";
 
 function Form() {
   let { id } = useParams();
@@ -48,17 +49,23 @@ function Form() {
     );
 
   return (
-    <div className="bg-zinc-100 py-10 min-h-screen">
-      <Tabs defaultValue="questions" className="w-full">
+    <div className="bg-zinc-100 min-h-screen">
+      <Tabs defaultValue="questions" className="w-full h-full py-10">
         <TabsList className="grid w-[320px] mx-auto grid-cols-3 mb-2">
           <TabsTrigger value="questions">Questions</TabsTrigger>
           <TabsTrigger value="responses">Responses</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
-
-        <div>
+        <div className="h-full">
           <TabsContent value="questions">
             <FormQuestions id={id} isDisabled={isCreator} form={form} />
+          </TabsContent>
+          <TabsContent value="responses" className="h-full">
+            <FormResponses
+              id={id}
+              isDisabled={isCreator}
+              responses={form?.data.responses}
+            />
           </TabsContent>
           <TabsContent value="settings">
             <FormSettings

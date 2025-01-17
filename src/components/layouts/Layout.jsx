@@ -23,7 +23,7 @@ function Layout() {
   };
 
   return (
-    <div className="h-screen">
+    <div className="h-full">
       <nav className="bg-white border-b drop-shadow-md">
         <div className="mx-auto max-w-7xl sm:pl-6 lg:pl-8">
           <div className="relative flex h-16 items-center justify-between">
@@ -152,7 +152,7 @@ function Layout() {
           </div>
         )}
       </nav>
-      <div className="container-lg min-h-screen">
+      <div className="container-lg h-full">
         <Outlet />
       </div>
     </div>

@@ -57,7 +57,7 @@ export default function Templates() {
                       : "src/assets/file.png"
                   }
                   alt={template.title}
-                  className="w-full h-32 object-cover rounded-lg"
+                  className="w-full h-32 object-cover rounded-t-lg"
                 />
               </CardHeader>
               <CardContent className="p-6 space-y-4 h-[14rem]">
@@ -73,7 +73,7 @@ export default function Templates() {
                 <div className="flex items-center gap-2">
                   <Icon icon="lucide:mail" className="h-4 w-4 text-gray-500" />
                   <span className="text-sm text-gray-600">
-                    {template.author.name}
+                    {template.author.email}
                   </span>
                 </div>
                 {template.tags.length > 0 && (
