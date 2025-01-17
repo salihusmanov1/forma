@@ -91,12 +91,12 @@ function ResponseForm() {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmitResponse)}>
             <Card className="p-5">
-              <CardHeader className="grid gap-4 px-8 break-all">
-                <label className="focus:outline-none pb-6 text-4xl font-bold tracking-tight lg:text-5xl">
+              <CardHeader className="grid gap-4 px-8 ">
+                <label className="focus:outline-none pb-6 text-4xl font-bold tracking-tight text-pretty lg:text-5xl">
                   {form?.data.template.template_name}
                 </label>
 
-                <label className="focus:outline-none pb-10 leading-7 text-2xl">
+                <label className="focus:outline-none pb-10 leading-7 text-pretty text-2xl">
                   {form?.data.template.template_description}
                 </label>
               </CardHeader>
