@@ -1,17 +1,17 @@
 import { useFormContext } from "react-hook-form";
 import { Input } from "../ui/input";
 import { useEffect } from "react";
+import useSetFormValue from "@/hooks/useSetFormValue";
 
 function NumericField({ isDisabled, index, response, field }) {
   const { setValue } = useFormContext();
+  const updateValue = useSetFormValue();
   const handleInput = (e) => {
     setValue(`answers.${index}.answer`, e.target.value);
   };
   useEffect(() => {
-    setValue(`answers.${index}.answer`, response?.answer || null);
-    setValue(`answers.${index}.question_id`, field.id);
-    setValue(`answers.${index}.type`, "multi_line");
-  }, [index, response, setValue, field]);
+    updateValue(index, response?.answer || "", field.id, "numeric");
+  }, []);
   return (
     <div>
       <Input

@@ -35,12 +35,14 @@ function ResponseForm() {
     defaultValues: {
       respondent_id: user.id,
       form_id: id,
-      answers: [],
+      SingleLineAnswers: [],
+      MultiLineAnswers: [],
+      NumericAnswers: [],
+      CheckboxAnswers: [],
     },
   });
 
   const {
-    getValues,
     handleSubmit,
     formState: { errors },
   } = methods;
@@ -102,10 +104,6 @@ function ResponseForm() {
               </CardHeader>
               <CardContent className="grid gap-4">
                 {form?.data.template.questions.map((field, index) => {
-                  const filteredResponse = response?.data?.answers.find(
-                    (a) => a.question_id === field.id
-                  );
-
                   return (
                     <div key={field.id} className="grid gap-2 py-4">
                       <div className="flex font-medium">
@@ -119,7 +117,9 @@ function ResponseForm() {
                           isDisabled={false}
                           index={index}
                           field={field}
-                          response={filteredResponse}
+                          response={response?.data?.SingleLineAnswers.find(
+                            (a) => a.question_id === field.id
+                          )}
                         />
                       )}
                       {field.type === "multi_line" && (
@@ -127,7 +127,9 @@ function ResponseForm() {
                           isDisabled={false}
                           index={index}
                           field={field}
-                          response={filteredResponse}
+                          response={response?.data?.MultiLineAnswers.find(
+                            (a) => a.question_id === field.id
+                          )}
                         />
                       )}
                       {field.type === "numeric" && (
@@ -135,7 +137,9 @@ function ResponseForm() {
                           isDisabled={false}
                           index={index}
                           field={field}
-                          response={filteredResponse}
+                          response={response?.data?.NumericAnswers.find(
+                            (a) => a.question_id === field.id
+                          )}
                         />
                       )}
                       {field.type === "checkbox" && (
@@ -148,8 +152,8 @@ function ResponseForm() {
                                 option={option}
                                 field={field}
                                 isDisabled={false}
-                                answers={response?.data?.answers.filter(
-                                  (a) => a.question_id == field.id
+                                response={response?.data?.CheckboxAnswers.find(
+                                  (a) => a.option_id === option.id
                                 )}
                               />
                             </div>

@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import useSetFormValue from "@/hooks/useSetFormValue";
 
 function CheckboxField({
   index,
@@ -8,27 +9,30 @@ function CheckboxField({
   option,
   isDisabled,
   field,
-  answers,
+  response,
 }) {
-  const { setValue, watch } = useFormContext();
+  const { setValue } = useFormContext();
+  const updateValue = useSetFormValue();
+  const [isChecked, setChecked] = useState();
 
   const handleCheck = (e) => {
-    setValue(`answers.${index + option_index}.answer`, e);
+    setValue(`answers.${index}.options.${option_index}`, {
+      option_id: option.id,
+      answer: e,
+    });
+    setChecked(e);
   };
 
   useEffect(() => {
-    setValue(`answers.${index + option_index}.question_id`, field.id);
-    setValue(`answers.${index + option_index}.option_id`, option.id);
-    setValue(`answers.${index + option_index}.type`, field.type);
-
-    const existingAnswer = answers?.find((a) => a.option_id === option.id);
-    setValue(
-      `answers.${index + option_index}.answer`,
-      existingAnswer?.answer || false
+    updateValue(
+      index,
+      { option_id: option.id, answer: response?.answer || false },
+      field.id,
+      "checkbox",
+      option_index
     );
+    setChecked(response?.answer || false);
   }, []);
-
-  const isChecked = watch(`answers.${index + option_index}.answer`);
 
   return (
     <div className="flex items-center space-x-2">
