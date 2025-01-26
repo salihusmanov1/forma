@@ -56,16 +56,12 @@ function Form() {
           <TabsTrigger value="responses">Responses</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
-        <div className="h-full">
+        <div className="h-full px-2">
           <TabsContent value="questions">
             <FormQuestions id={id} isDisabled={isCreator} form={form} />
           </TabsContent>
           <TabsContent value="responses" className="h-full">
-            <FormResponses
-              id={id}
-              isDisabled={isCreator}
-              responses={form?.data.responses}
-            />
+            <FormResponses id={id} isDisabled={isCreator} form={form?.data} />
           </TabsContent>
           <TabsContent value="settings">
             <FormSettings

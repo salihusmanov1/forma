@@ -6,8 +6,8 @@ import { Checkbox } from "../ui/checkbox";
 function FormQuestions({ form }) {
   return (
     <div className="w-full sm:w-2/3 mx-auto h-full">
-      <Card className="p-5">
-        <CardHeader className="grid gap-4 px-8 ">
+      <Card className="py-5">
+        <CardHeader className="grid gap-4">
           <label className="focus:outline-none pb-6 text-4xl font-bold tracking-tight text-pretty lg:text-5xl">
             {form?.data.template.template_name}
           </label>

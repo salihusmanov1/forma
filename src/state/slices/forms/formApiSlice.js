@@ -38,6 +38,18 @@ export const formsApi = createApi({
         method: 'DELETE',
       }),
     }),
+    getFormAnalytics: builder.query({
+      query: ({ formId, templateId }) => ({
+        url: `/form/${formId}/template/${templateId}/analytics`,
+        method: 'GET',
+      })
+    })
   })
 })
-export const { useGetFormsQuery, useCreateFormMutation, useGetFormQuery, useUpdateFormMutation, useDeleteFormMutation } = formsApi;
+export const {
+  useGetFormsQuery,
+  useCreateFormMutation,
+  useGetFormQuery,
+  useUpdateFormMutation,
+  useDeleteFormMutation,
+  useGetFormAnalyticsQuery } = formsApi;
