@@ -99,11 +99,17 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
               </div>
             </div>
           </div>
-          <div className="flex items-center w-full">
-            <Label htmlFor="tags" className="w-[64px]">
-              Tags
-            </Label>
-            <Tags tagList={tags} />
+          <div className="w-full">
+            <div className="flex items-center">
+              <Label htmlFor="tags" className="w-[64px]">
+                Tags
+              </Label>
+              <Tags tagList={tags} />
+            </div>
+
+            <p className="text-xs font-medium text-muted-foreground ml-[64px]">
+              You can select up to 3 tags
+            </p>
           </div>
         </CardContent>
       </Card>

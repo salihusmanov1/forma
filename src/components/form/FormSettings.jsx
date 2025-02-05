@@ -61,6 +61,14 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
     allowedEmails.remove(index);
   };
 
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(formLink);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
   const onSubmit = async (data) => {
     try {
       const res = await updateForm({
@@ -164,6 +172,7 @@ function FormSettings({ id, allowedEmails, handleSubmit, form }) {
                   className="flex-1 bg-transparent border-none focus:outline-none text-sm"
                 />
                 <button
+                  onClick={handleCopy}
                   type="button"
                   className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >

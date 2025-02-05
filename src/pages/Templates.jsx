@@ -45,10 +45,7 @@ export default function Templates() {
       ) : templates?.data.length > 0 ? (
         <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {templates.data.map((template) => (
-            <Card
-              key={template.id}
-              className="w-full max-w-sm mx-auto h-[26rem]"
-            >
+            <Card key={template.id} className="w-full max-w-sm mx-auto ">
               <CardHeader className="p-0 border-b">
                 <img
                   src={
@@ -60,14 +57,11 @@ export default function Templates() {
                   className="w-full h-32 object-cover rounded-t-lg"
                 />
               </CardHeader>
-              <CardContent className="p-6 space-y-4 h-[14rem]">
+              <CardContent className="p-6 space-y-4 ">
                 <div className="space-y-2 ">
-                  <h3 className="text-2xl font-semibold tracking-tight line-clamp-3">
+                  <h3 className="text-2xl font-semibold tracking-tight line-clamp-1">
                     {template.template_name}
                   </h3>
-                  <p className="text-sm text-gray-600 line-clamp-3">
-                    {template.template_description}
-                  </p>
                 </div>
 
                 <div className="flex items-center gap-2">
