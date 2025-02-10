@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLoginMutation } from "@/state/slices/auth/authApiSlice";
 import { setCredentials } from "@/state/slices/auth/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   closeLoginModal,
   openRegistrationModal,
@@ -34,7 +34,6 @@ function Login({ isOpen }) {
   const dispatch = useDispatch();
   const { toast } = useToast();
   const [login, { isLoading }] = useLoginMutation();
-  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const closeLogin = () => {

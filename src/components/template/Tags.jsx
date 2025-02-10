@@ -1,6 +1,4 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
-import CreatableSelect from "react-select/creatable";
-
 import {
   Command,
   CommandGroup,

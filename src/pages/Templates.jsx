@@ -45,7 +45,10 @@ export default function Templates() {
       ) : templates?.data.length > 0 ? (
         <div className="my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {templates.data.map((template) => (
-            <Card key={template.id} className="w-full max-w-sm mx-auto ">
+            <Card
+              key={template.id}
+              className="w-full max-w-sm mx-auto min-h-[350px]"
+            >
               <CardHeader className="p-0 border-b">
                 <img
                   src={
@@ -71,7 +74,7 @@ export default function Templates() {
                   </span>
                 </div>
                 {template.tags.length > 0 && (
-                  <div className="flex flex-nowrap gap-2 overflow-hidden">
+                  <div className="flex flex-wrap gap-2">
                     {template.tags.map((tag, index) => (
                       <Badge
                         key={index}

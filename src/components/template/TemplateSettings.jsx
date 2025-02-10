@@ -14,7 +14,7 @@ import { useGetTopicsQuery } from "@/state/slices/topics/topicsApiSlice";
 import Tags from "./Tags";
 import { useGetTagsQuery } from "@/state/slices/tags/tagsApiSlice";
 
-function TemplateSettings({ template, imageUrl, setImgUrl }) {
+function TemplateSettings({ template, imageUrl, setImgUrl, validationErrors }) {
   const { setValue, watch } = useFormContext();
   const topic = watch("topic_id");
   const { data: topics } = useGetTopicsQuery();
@@ -107,9 +107,11 @@ function TemplateSettings({ template, imageUrl, setImgUrl }) {
               <Tags tagList={tags} />
             </div>
 
-            <p className="text-xs font-medium text-muted-foreground ml-[64px]">
-              You can select up to 3 tags
-            </p>
+            {validationErrors && (
+              <p className="text-xs font-medium text-red-500 ml-[64px]">
+                {validationErrors?.tags?.message}
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>

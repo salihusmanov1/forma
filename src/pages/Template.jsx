@@ -15,6 +15,14 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { Icon } from "@iconify/react";
 import { callToast } from "@/utils.js/toastUtils";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object({
+  tags: Yup.array()
+    .max(3, "You can select up to 3 tags only")
+    .min(1, "At least one tag is required"),
+});
 
 export default function Template() {
   let { id } = useParams();
@@ -31,9 +39,11 @@ export default function Template() {
   const [createTemplate, { isLoading: templateLoading }] =
     useCreateTemplateMutation();
   const [imageUrl, setImgUrl] = useState("");
+  const [activeTab, setActiveTab] = useState("questions");
   const { toast } = useToast();
 
   const methods = useForm({
+    resolver: yupResolver(validationSchema),
     defaultValues: async () => {
       if (!template) {
         return {
@@ -46,7 +56,10 @@ export default function Template() {
       return template.data;
     },
   });
-  const { reset } = methods;
+  const {
+    reset,
+    formState: { errors },
+  } = methods;
 
   useEffect(() => {
     if (template?.data) {
@@ -122,11 +135,29 @@ export default function Template() {
 
   return (
     <div className="bg-zinc-100 py-10 min-h-screen">
-      <Tabs defaultValue="questions" className="w-full">
+      <Tabs
+        defaultValue="questions"
+        className="w-full"
+        onValueChange={setActiveTab}
+      >
         {!id && (
           <TabsList className="grid w-[320px] grid-cols-2 mx-auto">
             <TabsTrigger value="questions">Questions</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger className="relative" value="settings">
+              <p
+                className={
+                  errors?.tags && activeTab !== "settings" ? "text-red-500" : ""
+                }
+              >
+                Settings
+              </p>
+              {errors?.tags && activeTab !== "settings" && (
+                <Icon
+                  className="absolute -top-1 -right-1 text-red-600"
+                  icon="lucide:circle-alert"
+                />
+              )}
+            </TabsTrigger>
           </TabsList>
         )}
         <FormProvider {...methods}>
@@ -146,6 +177,7 @@ export default function Template() {
               imageUrl={imageUrl}
               setImgUrl={setImgUrl}
               onSubmit={onSubmit}
+              validationErrors={errors}
             />
           </TabsContent>
         </FormProvider>
